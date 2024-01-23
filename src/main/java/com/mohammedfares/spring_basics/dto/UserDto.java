@@ -2,6 +2,11 @@ package com.mohammedfares.spring_basics.dto;
 
 import java.io.Serializable;
 
+import org.springframework.beans.BeanUtils;
+
+import com.mohammedfares.spring_basics.entities.UserEntity;
+import com.mohammedfares.spring_basics.models.UserResponse;
+
 public class UserDto implements Serializable {
 	/**
 	 * 
@@ -70,6 +75,18 @@ public class UserDto implements Serializable {
 	public void setEmailVerificationStatus(Boolean emailVerificationStatus) {
 		this.emailVerificationStatus = emailVerificationStatus;
 	}
+	
+	public static UserResponse convertToUserResponse(UserDto userDto) {
+		UserResponse userResponse = new UserResponse();
+        BeanUtils.copyProperties(userDto, userResponse);
+        return userResponse;
+    }
+	
+	public static UserDto convertFromEntity(UserEntity userEntity) {
+        UserDto userDto = new UserDto();
+        BeanUtils.copyProperties(userEntity, userDto);
+        return userDto;
+    }
 	
 	
 }
