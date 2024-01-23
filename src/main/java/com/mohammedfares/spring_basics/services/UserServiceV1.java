@@ -4,6 +4,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.mohammedfares.spring_basics.comon.Utils;
 import com.mohammedfares.spring_basics.dto.UserDto;
 import com.mohammedfares.spring_basics.entities.UserEntity;
 import com.mohammedfares.spring_basics.repositories.UserRepository;
@@ -11,6 +12,9 @@ import com.mohammedfares.spring_basics.repositories.UserRepository;
 public class UserServiceV1 implements IUserService {
 	@Autowired
 	UserRepository userRepository;
+	
+	@Autowired
+	Utils utils;
 
 	@Override
 	public UserDto createUser(UserDto user) {
@@ -22,7 +26,7 @@ public class UserServiceV1 implements IUserService {
 		UserEntity userEntity = new UserEntity();
 		BeanUtils.copyProperties(user, userEntity);
 		
-		userEntity.setUserId("user test id");
+		userEntity.setUserId(utils.generateUserId(25));
 		userEntity.setEncryptedPassword("test encrypted password");
 		
 		UserEntity savedUser = userRepository.save(userEntity);
