@@ -15,6 +15,10 @@ public class UserServiceV1 implements IUserService {
 	@Override
 	public UserDto createUser(UserDto user) {
 		
+		UserEntity dejaExist = userRepository.findByEmail(user.getEmail());
+		
+		if (dejaExist != null) throw new RuntimeException("User Already Exists");
+		
 		UserEntity userEntity = new UserEntity();
 		BeanUtils.copyProperties(user, userEntity);
 		
@@ -22,18 +26,12 @@ public class UserServiceV1 implements IUserService {
 		userEntity.setEncryptedPassword("test encrypted password");
 		
 		UserEntity savedUser = userRepository.save(userEntity);
-		try {
-			UserDto feedBack = new UserDto();
-			BeanUtils.copyProperties(savedUser, feedBack);
-			return feedBack;
-		} catch(Exception e) {
-			
-		}
 		
+		UserDto feedBack = new UserDto();
 		
+		BeanUtils.copyProperties(savedUser, feedBack);
 		
-		
-		return null;
+		return feedBack;
 	
 	}
 

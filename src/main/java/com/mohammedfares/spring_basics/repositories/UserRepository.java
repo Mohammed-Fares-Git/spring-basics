@@ -9,5 +9,5 @@ import com.mohammedfares.spring_basics.entities.UserEntity;
 
 @Repository
 public interface UserRepository extends CrudRepository<UserEntity,Long>{
-
+	UserEntity findByEmail(String email);
 }
