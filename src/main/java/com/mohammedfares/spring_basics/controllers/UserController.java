@@ -1,8 +1,12 @@
 package com.mohammedfares.spring_basics.controllers;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +23,16 @@ public class UserController {
 	
 	@Autowired
 	IUserService userService;
+	
+	@GetMapping
+	public List<UserResponse> index() {
+		List<UserResponse> users = userService
+				.getAllUsers()
+				.stream()
+				.map(UserDto::convertToUserResponse)
+				.collect(Collectors.toList());
+		return users;
+	}
 	
 	@PostMapping
 	public UserResponse post (@RequestBody UserRequest userRequest) {
